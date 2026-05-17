@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'DDS – Detect, Defend, Secure')
+@section('title', 'DDS – Direct Delivery System')
 
 @section('content')
 <style>
@@ -8,7 +8,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .page { min-height: 100vh; background: #0a0a0a; font-family: 'Inter', sans-serif; overflow: hidden; }
+    .page { min-height: 100vh; background: #0a0a0a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
     .orb {
         position: fixed;
@@ -41,6 +41,7 @@
         align-items: center;
         padding: 22px 60px;
         border-bottom: 1px solid #1a1a1a;
+        flex-wrap: wrap;
     }
 
     .logo {
@@ -54,7 +55,7 @@
     }
     .logo span { color: #e3000f; }
 
-    .nav-links { display: flex; gap: 12px; align-items: center; }
+    .nav-links { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .nav-links a {
         color: #888;
         text-decoration: none;
@@ -100,19 +101,25 @@
         justify-content: center;
         gap: 12px;
         margin-top: 30px;
+        flex-wrap: wrap;
     }
-    .hero-btns a {
+    .hero-btns a, .hero-btns button {
         padding: 12px 28px;
         border-radius: 999px;
         font-size: 14px;
         font-weight: 700;
         text-decoration: none;
         transition: all 0.2s;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        border: 1px solid #333;
+        background: #111;
+        color: #888;
     }
-    .hero-btns .btn-red { background: #e3000f; color: white; }
+    .hero-btns .btn-red { background: #e3000f; color: white; border-color: #e3000f; }
     .hero-btns .btn-red:hover { background: #b0000c; }
-    .hero-btns .btn-outline { border: 1px solid #333; color: #888; background: #111; }
     .hero-btns .btn-outline:hover { border-color: #e3000f; color: white; }
+    .hero-btns form { display: contents; }
 
     .star {
         position: absolute;
@@ -121,6 +128,74 @@
         animation: spin 8s linear infinite;
     }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .faq-section {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 60px auto 40px;
+        padding: 0 20px;
+    }
+    .section-label {
+        text-align: center;
+        color: #333;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+    .faq-container {
+        background: #0f0f0f;
+        border: 1px solid #1a1a1a;
+        border-radius: 24px;
+        overflow: hidden;
+    }
+    .faq-item {
+        border-bottom: 1px solid #1f1f1f;
+    }
+    .faq-item:last-child {
+        border-bottom: none;
+    }
+    .faq-question {
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        padding: 18px 20px;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s;
+    }
+    .faq-question:hover {
+        background: #1a1a1a;
+    }
+    .faq-question::after {
+        content: '+';
+        font-size: 20px;
+        color: #e3000f;
+    }
+    .faq-question.active::after {
+        content: '−';
+    }
+    .faq-answer {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        color: #aaa;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    .faq-answer.show {
+        padding: 0 20px 18px;
+        max-height: 200px;
+    }
 
     .marquee-wrap {
         position: relative;
@@ -139,9 +214,21 @@
         text-transform: uppercase;
         margin-bottom: 16px;
     }
-    .marquee { display: flex; gap: 40px; animation: marquee 20s linear infinite; white-space: nowrap; }
-    .marquee span { color: #333; font-size: 13px; font-weight: 700; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee {
+        display: flex;
+        gap: 40px;
+        animation: marquee 20s linear infinite;
+        white-space: nowrap;
+    }
+    .marquee span {
+        color: #333;
+        font-size: 13px;
+        font-weight: 700;
+    }
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
 
     footer {
         position: relative;
@@ -153,20 +240,14 @@
         border-top: 1px solid #111;
     }
     footer span { color: #e3000f; }
-    .hero-btns form { margin: 0; display: contents; }
-    .hero-btns button {
-    padding: 12px 28px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    border: 1px solid #333;
-    color: #888;
-    background: #111;
-    transition: all 0.2s;
-}
-.hero-btns button:hover { border-color: #e3000f; color: white; }
+
+    @media (max-width: 768px) {
+        nav { padding: 22px 20px; }
+        .hero h1 { font-size: 48px; letter-spacing: -2px; line-height: 1.1; }
+        .hero { padding: 60px 20px; }
+        .hero-btns { gap: 10px; }
+        .hero-btns a, .hero-btns button { padding: 8px 18px; font-size: 12px; }
+    }
 </style>
 
 <div class="page">
@@ -175,7 +256,7 @@
 
     {{-- Navbar --}}
     <nav>
-        <div class="logo">🛡️ <span>DDS</span></div>
+        <div class="logo">📦 <span>DDS</span></div>
         <div class="nav-links">
             @auth
                 <a href="{{ route('dashboard') }}" class="nav-login">Dashboard →</a>
@@ -201,11 +282,11 @@
 
         <div style="position:relative; display:inline-block;">
             <div class="star" style="top:-20px; left:-80px;">✦</div>
-            <h1>Detect<br><em>Defend</em><br>Secure</h1>
+            <h1>DIRECT<br><em>DELIVERY</em><br>SYSTEM</h1>
             <div class="star" style="bottom:-10px; right:-70px; font-size:24px; animation-duration:5s;">✦</div>
         </div>
 
-        <p style="margin-top:30px;">We Craft <span style="color:#e3000f; font-weight:700;">Secure</span> Authentication For Your Applications.</p>
+        <p style="margin-top:30px;">We Craft <span style="color:#e3000f; font-weight:700;">Secure Authentication</span> For Your Applications.</p>
 
         <div class="hero-btns">
             @auth
@@ -221,117 +302,39 @@
         </div>
     </div>
 
-        <div class="faq-section">
-            <p class="section-label">— FREQUENTLY ASKED QUESTIONS —</p>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <button class="faq-question">What is DDS?</button>
-                    <div class="faq-answer">DDS (Detect, Defend, Secure) is a secure authentication and communication platform.</div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">How does OTP work?</button>
-                    <div class="faq-answer">We send a 6-digit code via SMS or email using Repohive API. You enter it to verify your identity.</div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Is Google Login secure?</button>
-                    <div class="faq-answer">Yes, we use OAuth 2.0 with Google – no password is ever stored by us.</div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Can I change my password later?</button>
-                    <div class="faq-answer">Absolutely. Go to Account Settings > Update Password.</div>
-                </div>
+    {{-- FAQ Section --}}
+    <div class="faq-section">
+        <p class="section-label">— FREQUENTLY ASKED QUESTIONS —</p>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">What is DDS?</button>
+                <div class="faq-answer">DDS (Direct Delivery System) is a secure platform that delivers emails, SMS, and authentication services directly to your users – fast and reliable.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">How does email delivery work?</button>
+                <div class="faq-answer">You compose an email in the dashboard, and we send it instantly via the Repohive API. All sent emails are stored in your account history.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Can I send SMS too?</button>
+                <div class="faq-answer">Yes! DDS supports OTP delivery via SMS using Repohive's SMS API. You can also send OTPs via email.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Is my data secure?</button>
+                <div class="faq-answer">Absolutely. We use hashed passwords, OTPs expire in 10 minutes, and all API calls are encrypted with tokens.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Can I integrate DDS with my own app?</button>
+                <div class="faq-answer">Currently DDS is a standalone platform, but the code is open source – you can extend it via API routes or fork the repository.</div>
             </div>
         </div>
+    </div>
 
-        <style>
-        .faq-section {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 60px auto 40px;
-            padding: 0 20px;
-        }
-        .faq-container {
-            background: #0f0f0f;
-            border: 1px solid #1a1a1a;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-        .faq-item {
-            border-bottom: 1px solid #1f1f1f;
-        }
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-        .faq-question {
-            width: 100%;
-            text-align: left;
-            background: transparent;
-            border: none;
-            padding: 18px 20px;
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-        .faq-question:hover {
-            background: #1a1a1a;
-        }
-        .faq-question::after {
-            content: '+';
-            font-size: 20px;
-            color: #e3000f;
-        }
-        .faq-question.active::after {
-            content: '−';
-        }
-        .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        .faq-answer.show {
-            padding: 0 20px 18px;
-            max-height: 200px;
-        }
-        </style>
-
-    <script>
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const currentAnswer = button.nextElementSibling;
-                const isCurrentlyActive = button.classList.contains('active');
-
-                // Close all answers
-                document.querySelectorAll('.faq-answer').forEach(answer => {
-                    answer.classList.remove('show');
-                });
-                document.querySelectorAll('.faq-question').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-
-                // If the clicked question was not active, open it
-                if (!isCurrentlyActive) {
-                    button.classList.add('active');
-                    currentAnswer.classList.add('show');
-                }
-            });
-        });
-    </script>
     {{-- Marquee --}}
     <div class="marquee-wrap">
         <p class="marquee-label">Trusted by students & fast-growing teams</p>
         <div class="marquee">
+            <span>Email Delivery</span><span>·</span>
             <span>SMS API</span><span>·</span>
-            <span>Email API</span><span>·</span>
             <span>OTP Verification</span><span>·</span>
             <span>Laravel</span><span>·</span>
             <span>Repohive</span><span>·</span>
@@ -339,8 +342,9 @@
             <span>Mailbox</span><span>·</span>
             <span>DeepSeek</span><span>·</span>
             <span>Claude AI</span><span>·</span>
+            <span>Secure Auth</span><span>·</span>
+            <span>Email Delivery</span><span>·</span>
             <span>SMS API</span><span>·</span>
-            <span>Email API</span><span>·</span>
             <span>OTP Verification</span><span>·</span>
             <span>Laravel</span><span>·</span>
             <span>Repohive</span><span>·</span>
@@ -351,7 +355,23 @@
         </div>
     </div>
 
-    <footer>© 2026 <span>DDS</span> — Detect, Defend, Secure. Built with Laravel & Repohive API.</footer>
+    <footer>© 2026 <span>DDS</span> — Direct Delivery System. Built with Laravel & Repohive API.</footer>
 </div>
 
+<script>
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const answer = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('show'));
+            document.querySelectorAll('.faq-question').forEach(btn => btn.classList.remove('active'));
+
+            if (!isActive) {
+                button.classList.add('active');
+                answer.classList.add('show');
+            }
+        });
+    });
+</script>
 @endsection
