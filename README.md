@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛡️ DDS – Detect, Defend, Secure
 
 DDS is a modern authentication and communication platform built with **Laravel**.  
@@ -25,3 +26,7 @@ It provides secure login methods (email/password, OTP via SMS/email, Google OAut
     - Logout from other devices
 - **Fully responsive** – works on desktop and mobile
 - **Dark/red theme** with animated orbs and smooth transitions
+=======
+# repohive-app-hub
+Laravel authentication hub with email/OTP/Google login, AI chatbot (DeepSeek/Claude), email sender via Repohive API, and secure dashboard.
+>>>>>>> cfe8c5e9ed7a40115c31c3c4f3685df5b3f3f2dc
